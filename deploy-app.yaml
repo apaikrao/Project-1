@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Ensure the php-web-app container is stopped and removed
+      docker_container:
+        name: php-web-app
+        state: absent  # This will stop and remove the container if it exists
+
+    - name: Remove the php-app image
+      docker_image:
+        name: apaikrao/project-1:latest
+        state: absent  # This ensures the image is removed if it exists
+
+    - name: Pull the latest php-app image
+      docker_image:
+        name: apaikrao/project-1:latest
+        source: pull  # Pulls the latest image from the Docker registry
+
+    - name: Start new php-web-app container
+      docker_container:
+        name: php-web-app
+        image: apaikrao/project-1:latest
+        state: started
+        published_ports:
+          - "9090:80"  # Maps host port 9090 to container port 80
+
