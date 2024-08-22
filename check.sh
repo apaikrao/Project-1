@@ -1,2 +1,2 @@
 #!/bin/bash
-ansible-playbook deploy-app.yaml -vvv
+ansible-playbook -u ansadmin -i /etc/ansible/hosts deploy-app.yaml
