@@ -1,7 +1,18 @@
 ---
-- hosts: test
+- hosts: all
   become: true
   tasks:
+    - name: Ensure Docker is installed
+      package:
+        name: docker
+        state: present
+
+    - name: Ensure Docker service is running and enabled
+      service:
+        name: docker
+        state: started
+        enabled: true
+
     - name: Ensure the php-web-app container is stopped and removed
       docker_container:
         name: php-web-app
